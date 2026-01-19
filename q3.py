@@ -67,7 +67,26 @@ def find_overloaded_users(events):
         set()
     """
     # TODO: Implement your solution here
-    pass
+    user_times = {}
+
+    for user_id, ts in events:
+        if user_id not in user_times:
+            user_times[user_id] = []
+        user_times[user_id].append(ts)
+    overloaded = set()
+
+    for user_id in user_times:
+        times = user_times[user_id]
+        times.sort()
+
+        left = 0
+        for right in range(len(times)):
+            while times[right] - times[left] >= 10:
+                left += 1
+            if right - left + 1 >= 3:
+                overloaded.add(user_id)
+                break
+    return overloaded
 
 
 if __name__ == "__main__":
